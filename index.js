@@ -3,17 +3,18 @@
 import { Command } from 'commander';
 import { SetupManager } from './lib/setup/setupManager.js';
 import { StoryManager } from './lib/stories/storyManager.js';
-import { getUserChoices } from './lib/prompt/promptManager.js';
+import { PromptManager } from './lib/setup/promptManager.js';
 
 async function initProject() {
     const storyManager = new StoryManager();
+    const promptManager = new PromptManager();
 
     // Intro message
     storyManager.displayIntro();
 
     // Gather the user's choices for the project setup
-    const { directory, language, framework, database, orm, initGit } = await getUserChoices();
-    const setup = new SetupManager(directory, language, framework, database, orm, initGit);
+    const project = await promptManager.getProjectSetup();
+    const setup = new SetupManager(project);
     await setup.setupProject();
     console.log('\n');
 
@@ -21,7 +22,7 @@ async function initProject() {
     storyManager.displayCelebration();
 
     // Final instructions
-    storyManager.displayInstructions(directory);
+    storyManager.displayInstructions(project.directory);
 
     // Offer guidance for help
     storyManager.displayGuidance();
@@ -30,7 +31,7 @@ async function initProject() {
     storyManager.displayFinal();
 
     // Quest completion reminder
-    storyManager.displayQuestComplete(directory);
+    storyManager.displayQuestComplete(project.directory);
 }
 
 const program = new Command();
