@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { setup } from './lib/main.js';
+import { SetupManager } from './lib/setup/setupManager.js';
 import { StoryManager } from './lib/stories/storyManager.js';
-import { getUserChoices } from './lib/setup/promptManager.js';
+import { getUserChoices } from './lib/prompt/promptManager.js';
 
 async function initProject() {
     const storyManager = new StoryManager();
@@ -12,8 +12,9 @@ async function initProject() {
     storyManager.displayIntro();
 
     // Gather the user's choices for the project setup
-    const { directory, language, framework, database, orm, installDeps, initGit } = await getUserChoices();
-    await setup(directory, language, framework, database, orm, installDeps, initGit);
+    const { directory, language, framework, database, orm, initGit } = await getUserChoices();
+    const setup = new SetupManager(directory, language, framework, database, orm, initGit);
+    await setup.setupProject();
     console.log('\n');
 
     // Celebratory message
