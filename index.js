@@ -15,7 +15,7 @@ async function initProject() {
     // Gather the user's choices for the project setup
     const project = await promptManager.getProjectSetup();
     const setup = new SetupManager(project);
-    await setup.setupProject();
+    await setup.init();
     console.log('\n');
 
     // Celebratory message
