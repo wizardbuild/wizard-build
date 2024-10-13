@@ -26,16 +26,9 @@ Behold, the sacred layout of your enchanted project:
 ```
 📦 project-name
  ┣ 📂 src
- ┃ ┣ 📂 config
- ┃ ┃ ┗ database.ts
- ┃ ┣ 📂 controllers
- ┃ ┃ ┗ example.controller.ts
- ┃ ┣ 📂 models
- ┃ ┃ ┗ example.model.ts
- ┃ ┣ 📂 routes
- ┃ ┃ ┗ example.routes.ts
- ┃ ┣ 📂 services
- ┃ ┃ ┗ example.service.ts
+ ┃ ┣ 📂 db
+ ┃ ┃ ┣ schema.ts
+ ┃ ┃ ┗ index.ts
  ┃ ┗ index.ts
  ┣ .env.example
  ┣ .gitignore
@@ -43,7 +36,6 @@ Behold, the sacred layout of your enchanted project:
  ┣ README.md
  ┗ tsconfig.json
 ```
-
 
 ## 🧑‍🏫 The Ritual: Getting Started
 
