@@ -1,50 +1,37 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk';
 import { Command } from 'commander';
-import { setup } from './lib/setup/main.js';
-import { getUserChoices } from './lib/setup/promptManager.js';
-import {
-    getRandomIntroMessage,
-    getRandomCelebrationMessage,
-    getRandomInstructionMessage,
-    getRandomFinalMessage
-} from './lib/stories/main.js';
+import { SetupManager } from './lib/setup/setupManager.js';
+import { StoryManager } from './lib/stories/storyManager.js';
+import { PromptManager } from './lib/setup/promptManager.js';
 
 async function initProject() {
+    const storyManager = new StoryManager();
+    const promptManager = new PromptManager();
+
     // Intro message
-    getRandomIntroMessage();
-    console.log('\n');
+    storyManager.displayIntro();
 
     // Gather the user's choices for the project setup
-    const { directory, language, framework, database, orm, installDeps, initGit } = await getUserChoices();
-    await setup(directory, language, framework, database, orm, installDeps, initGit);
+    const project = await promptManager.getProjectSetup();
+    const setup = new SetupManager(project);
+    await setup.init();
     console.log('\n');
 
     // Celebratory message
-    getRandomCelebrationMessage();
-    console.log('\n');
+    storyManager.displayCelebration();
 
     // Final instructions
-    getRandomInstructionMessage(directory);
-    console.log('\n');
+    storyManager.displayInstructions(project.directory);
 
     // Offer guidance for help
-    console.log('-'.repeat(30) + ' ⚔️ Setup Complete ⚔️ ' + '-'.repeat(30) + '\n');
-    console.log(`Should you find yourself in perilous times, summon aid from the Elders at:`);
-    console.log(chalk.underline.cyan('https://github.com/wesleybertipaglia/wizard-build/') + '\n');
-    console.log('-'.repeat(80));
-    console.log('\n');
+    storyManager.displayGuidance();
 
     // Final message with flair and grandeur
-    getRandomFinalMessage();
-    console.log('\n');
+    storyManager.displayFinal();
 
     // Quest completion reminder
-    console.log(`✨ Quest complete! You now embark on your journey alone.`);
-    console.log(chalk.green(`  cd ${directory}`));
-    console.log(chalk.green(`  npm install`));
-    console.log(chalk.green(`  npm run dev`) + '\n\n');
+    storyManager.displayQuestComplete(project.directory);
 }
 
 const program = new Command();
