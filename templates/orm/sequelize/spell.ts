@@ -1,7 +1,7 @@
 // src/models/spell.ts
 
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../db/index.ts';
+import { sequelize } from '../db/index.ts';
 
 interface SpellAttributes {
     id: number;

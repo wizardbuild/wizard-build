@@ -1,7 +1,7 @@
 // src/models/spell.js
 
 import { DataTypes } from 'sequelize';
-import sequelize from '../db/index.ts';
+import { sequelize } from '../db/index.ts';
 
 const Spell = sequelize.define('Spell', {
     id: {
