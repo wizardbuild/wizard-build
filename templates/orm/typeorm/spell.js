@@ -1,5 +1,6 @@
 // src/models/spell.js
 
+import "reflect-metadata";
 import { EntitySchema } from 'typeorm';
 
 module.exports = new EntitySchema({
